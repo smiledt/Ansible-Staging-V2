@@ -19,7 +19,7 @@
   tags: [ 'debug' ]
 
 # Create a VM from a template with DHCP - CURRENTLY DOES NOT WORK
-- name: Create the VM with DHCP. 
+- name: Create the VM with DHCP.
   vmware_guest:
     hostname: '{{ vsphere_host }}'
     username: '{{ vsphere_user }}'
