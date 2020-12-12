@@ -2,7 +2,6 @@
 - name: Converge
   hosts: all
   vars_files: 
-    - ../../vars/vault
     - ../../defaults/main.yml
   tasks:
     - name: Update apt cache (on Debian)
@@ -20,5 +19,6 @@
       include_role:
         name: "management_user"
       vars:
-        ansible_become_pass: "{{ provisioned_user_pass }}"
-        ansible_ssh_pass: "{{ provisioned_user_pass }}"
+        ansible_become_pass: "molecule_testing"
+        ansible_ssh_pass: "molecule_testing"
+        vault_management_pass: "molecule_testing"
