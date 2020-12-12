@@ -1,0 +1,23 @@
+---
+# Run the deploy_vmare playbook against the control host
+
+- hosts: deploy
+  gather_facts: false
+
+  vars_prompt:
+    - name: "vsphere_user"
+      prompt: "VSphere user"
+      private: no
+    - name: "vsphere_password"
+      prompt: "vSphere Password"
+      private: yes
+    - name: "esxi_host"
+      prompt: "ESXi host"
+      private: no
+      default: atlantis.plumbus.lab
+    - name: "notes"
+      prompt: "VM notes"
+      private: no
+      default: "Deployed with ansible"
+  roles:
+     - vmware_deploy

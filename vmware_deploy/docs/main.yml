@@ -1,0 +1,34 @@
+---
+defaults:
+  guest_dns_server:
+    help: TODO.
+  guest_domain_name:
+    help: TODO.
+  guest_gateway:
+    help: TODO.
+  guest_id:
+    help: TODO.
+  guest_memory:
+    help: TODO.
+  guest_netmask:
+    help: TODO.
+  guest_network:
+    help: TODO.
+  guest_template:
+    help: TODO.
+  guest_vcpu:
+    help: TODO.
+  hdd_gb:
+    help: TODO.
+  hdd_type:
+    help: TODO.
+  vsphere_datacenter:
+    help: TODO.
+  vsphere_datastore:
+    help: TODO.
+  vsphere_folder:
+    help: TODO.
+  vsphere_host:
+    help: TODO.
+  vsphere_user:
+    help: TODO.

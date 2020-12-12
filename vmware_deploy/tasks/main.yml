@@ -1,0 +1,101 @@
+---
+# tasks file for vmware_deploy
+
+# get date 
+- name: Set the date fact for later use.
+  set_fact: creationdate="{{ lookup('pipe','date "+%Y/%m/%d %H:%M"') }}"
+
+- name: Set the dash date fact for later use.
+  set_fact: creationdate_dash="{{ lookup('pipe','date "+%Y-%m-%d"') }}"
+
+- name: Display new VM IP.
+  debug:
+    var: guest_custom_ip
+  tags: [ 'debug' ]
+
+- name: Display VSphere Hostname.
+  debug:
+    var: vsphere_host
+  tags: [ 'debug' ]
+
+# Create a VM from a template with DHCP - CURRENTLY DOES NOT WORK
+- name: Create the VM with DHCP
+  vmware_guest:
+    hostname: '{{ vsphere_host }}'
+    username: '{{ vsphere_user }}'
+    password: '{{ vsphere_password }}'
+    validate_certs: no
+    esxi_hostname: '{{ esxi_host }}'
+    datacenter: '{{ vsphere_datacenter }}'
+    folder: '{{ vsphere_folder }}'
+    name: '{{ inventory_hostname }}'
+    state: poweredon
+    guest_id: '{{ guest_id }}'
+    annotation: "{{ notes }} by user {{ vsphere_user }} on {{ creationdate }} ."
+    disk:
+    - size_gb: "{{ hdd_gb }}"
+      type: "{{ hdd_type }}"
+      datastore: '{{ vsphere_datastore }}'
+    networks:
+    - name: '{{ guest_network }}'
+      gateway: '{{ guest_gateway }}'
+      dns_servers: '{{ guest_dns_servers }}'
+    hardware:
+      memory_mb: '{{ guest_memory }}'
+      num_cpus: '{{ guest_vcpu }}'
+    customization:
+      dns_servers: '{{ guest_dns_servers }}'
+      domain: '{{ guest_domain_name }}'
+      hostname: '{{ inventory_hostname }}'
+    #using the 16.04.6 template is currently a temporary workaround
+    template: 'Basic Ubuntu 16.04.6'
+    wait_for_ip_address: yes
+  delegate_to: localhost
+  when: guest_custom_ip is undefined
+
+
+# Create a VM from a template with a STATIC IP
+- name: create the VM with STATIC IP
+  vmware_guest:
+    hostname: '{{ vsphere_host }}'
+    username: '{{ vsphere_user }}'
+    password: '{{ vsphere_password }}'
+    validate_certs: no
+    esxi_hostname: '{{ esxi_host }}'
+    datacenter: '{{ vsphere_datacenter }}'
+    folder: '{{ vsphere_folder }}'
+    name: '{{ inventory_hostname }}'
+    state: poweredon
+    guest_id: '{{ guest_id }}'
+    annotation: "{{ notes }} by user {{ vsphere_user }} on {{ creationdate }} ."
+    disk:
+    - size_gb: "{{ hdd_gb }}"
+      type: "{{ hdd_type }}"
+      datastore: '{{ vsphere_datastore }}'
+    networks:
+    - name: '{{ guest_network }}'
+      ip: '{{ guest_custom_ip }}'
+      netmask: '{{ guest_netmask }}'
+      gateway: '{{ guest_gateway }}'
+      dns_servers: '{{ guest_dns_servers }}'
+    hardware:
+      memory_mb: '{{ guest_memory }}'
+      num_cpus: '{{ guest_vcpu }}'
+    customization:
+      dns_servers: '{{ guest_dns_servers }}'
+      domain: '{{ guest_domain_name }}'
+      hostname: '{{ inventory_hostname }}'
+    template: '{{ guest_template }}'
+    wait_for_ip_address: yes
+  delegate_to: localhost
+  when: guest_custom_ip is defined
+
+- name: Add DNS records for new STATIC vms
+  win_dns_record:
+    name: "{{ inventory_hostname }}"
+    type: "A"
+    value: "{{ guest_custom_ip }}"
+    zone: "{{ guest_domain_name }}"
+    state: present
+  when: guest_custom_ip is defined
+  delegate_to: dc01
