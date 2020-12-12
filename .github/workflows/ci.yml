@@ -1,5 +1,5 @@
 ---
-name: Linting only
+name: Linting and Molecule Testing
 'on':
   pull_request:
   push:
