@@ -23,7 +23,11 @@ jobs:
       - name: Install test dependencies.
         run: pip3 install yamllint ansible-lint
 
-      - name: Lint the playbook before pushing to master.
+      - name: Verify the ansible-lint version.
         run: ansible-lint --version
+ 
+      - name: Yamllint everything.
         run: yamllint .
+      
+      - name: Finally, run ansible-lint before merging to master. 
         run: ansible-lint .
