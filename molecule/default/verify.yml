@@ -21,4 +21,4 @@
     register: stat_result
     failed_when: stat_result is not defined
     with_fileglob:
-      - ../../standard_useer/files/*.pub
+      - ../../standard_user/files/*.pub
