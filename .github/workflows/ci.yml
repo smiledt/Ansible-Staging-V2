@@ -28,6 +28,9 @@ jobs:
  
       - name: Yamllint everything.
         run: yamllint .
-      
-      - name: Finally, run ansible-lint before merging to master. 
+
+      - name: Ansible-lint the directory
         run: ansible-lint .
+      
+      - name: Finally, run ansible-lint on every .yml file before merging to master. 
+        run: ansible-lint *.yml
