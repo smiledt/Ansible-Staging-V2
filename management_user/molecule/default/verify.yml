@@ -4,7 +4,6 @@
 - name: Verify
   hosts: all
   vars_files: 
-    - ../../vars/vault
     - ../../defaults/main.yml
   tasks:
   - name: "Check if {{ management_user }} exists"
