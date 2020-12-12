@@ -21,3 +21,13 @@
       default: "Deployed with ansible"
   roles:
      - vmware_deploy
+
+- hosts: deploy
+  gather_facts: false
+  remote_user: "{{ provisioned_user_name }}"
+  become: true
+  vars:
+    ansible_become_pass: "{{ provisioned_user_pass }}"
+    ansible_ssh_pass: "{{ provisioned_user_pass }}"
+  roles:
+    - role: management_user

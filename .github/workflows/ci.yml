@@ -1,5 +1,5 @@
 ---
-name: Linting only
+name: Linting and Molecule Testing
 'on':
   pull_request:
   push:
@@ -8,7 +8,7 @@ name: Linting only
 
 jobs:
   build:
-    name: Lint the playbook before pushing to master.
+    name: Lint the playbook and run Molecule tests before pushing to master.
     runs-on: ubuntu-latest
     
     steps:
@@ -21,16 +21,19 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies.
-        run: pip3 install yamllint ansible-lint
+        run: pip3 install molecule docker molecule-docker yamllint ansible-lint
 
-      - name: Verify the ansible-lint version.
-        run: ansible-lint --version
- 
-      - name: Yamllint everything.
+      - name: Yamllint the directory.
         run: yamllint .
 
-      - name: Ansible-lint the directory
+      - name: Ansible-lint the directory.
         run: ansible-lint .
       
-      - name: Finally, run ansible-lint on every .yml file before merging to master. 
+      - name: Finally, run ansible-lint on every .yml file. 
         run: ansible-lint *.yml
+
+      - name: Now, run Molecule tests.
+        run: molecule test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
