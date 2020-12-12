@@ -1,0 +1,16 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  vars_files: 
+    - ../../management_user/vars/vault
+    - ../../management_user/defaults/main.yml
+  tasks:
+  - name: "Check if {{ management_user }} exists"
+    getent:
+      database: passwd
+      key: "{{ management_user }}"
+    failed_when: getent_passwd is not defined
+
+  - debug: var=getent_passwd

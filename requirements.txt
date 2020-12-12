@@ -1,0 +1,4 @@
+# Only verified this is needed on MacOS
+passlib
+
+# sshpass needs to be installed as well on a mac but I am not sure if this is able to be done through pip

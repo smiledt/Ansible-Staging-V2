@@ -1,0 +1,24 @@
+---
+- name: Converge
+  hosts: all
+  vars_files: 
+    - ../../vars/vault
+    - ../../defaults/main.yml
+  tasks:
+    - name: Update apt cache (on Debian)
+      apt: 
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_os_family == 'Debian'
+
+    - name: Install dependencies.
+      pip:
+        name: passlib
+        state: present
+
+    - name: "Include management_user."
+      include_role:
+        name: "management_user"
+      vars:
+        ansible_become_pass: "{{ provisioned_user_pass }}"
+        ansible_ssh_pass: "{{ provisioned_user_pass }}"
