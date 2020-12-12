@@ -3,6 +3,7 @@
   hosts: all
   vars_files: 
     - ../../management_user/defaults/main.yml
+    - ../../standard_user/defaults/main.yml
   tasks:
     - name: Update apt cache (on Debian)
       apt: 
@@ -15,10 +16,20 @@
         name: passlib
         state: present
 
-    - name: "Test management user role"
+    - name: "Test the management user role."
       include_role:
         name: "management_user"
       vars:
         ansible_become_pass: "molecule_testing"
         ansible_ssh_pass: "molecule_testing"
         vault_management_pass: "molecule_testing"
+
+    - name: "Ensure the user {{ standard_user }} exists (this user exists by default in my environment)."
+      user:
+        name: "{{ standard_user }}"
+        comment: Standard user profile.
+        shell: /bin/bash
+
+    - name: "Test the standard user role."
+      include_role:
+        name: "standard_user"
