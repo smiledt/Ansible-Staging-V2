@@ -3,6 +3,8 @@
 
 - hosts: deploy
   gather_facts: false
+  vars_files:
+    - vmware_deploy/vars/vault
 
   vars_prompt:
     - name: "vsphere_user"
@@ -26,8 +28,15 @@
   gather_facts: false
   remote_user: "{{ provisioned_user_name }}"
   become: true
+  vars_files:
+    - management_user/vars/vault
   vars:
     ansible_become_pass: "{{ provisioned_user_pass }}"
     ansible_ssh_pass: "{{ provisioned_user_pass }}"
   roles:
     - role: management_user
+
+- hosts: deploy
+  become: true
+  roles:
+    - role: standard_user
