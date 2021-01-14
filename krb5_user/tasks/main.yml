@@ -1,8 +1,7 @@
 ---
 # tasks file for krb5_user
 # this task joins an ubuntu vm to the active directory domain
-
-- name: Include encrypted variables
+- name: Include encrypted variables.
   include_vars: vault.yml
 
 - name: Install the kerberos client software necessary to join an ubuntu vm to the domain
