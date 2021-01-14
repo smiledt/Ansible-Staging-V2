@@ -14,5 +14,11 @@ localhost ansible_python_interpreter=python3 ansible_connection=local
 
 [deploy]
 #example guest_custom_ip='172.16.1.235' ansible_python_interpreter=auto guest_memory=2048 guest_vcpu=2 vsphere_datastore='SSD02' hdd_gb=64 hdd_type='thick' ansible_host_group='SAM'
+<<<<<<< HEAD:deploy.inv
 testvm03 guest_custom_ip=192.168.1.63 ansible_python_interpreter=auto vsphere_datastore='Intel_SSD'
 testvm04 guest_custom_ip=192.168.1.64 vsphere_datastore='Intel_SSD'
+=======
+testvm01 guest_custom_ip=192.168.1.61 ansible_python_interpreter=auto
+testvm02 guest_custom_ip=192.168.1.62 ansible_python_interpreter=auto
+testvm03
+>>>>>>> 06e1131a015cd4f4bbd19bb5b63850b041f0e104:test.inv
