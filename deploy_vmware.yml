@@ -46,7 +46,7 @@
   roles:
     - role: management_user
 
-- name: Add the standard user account. 
+- name: Add the standard user account.
   hosts: deploy
   become: true
   roles:
