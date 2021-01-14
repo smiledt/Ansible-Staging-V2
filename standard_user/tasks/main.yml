@@ -2,7 +2,7 @@
 # tasks file for standard_user
 
 - name: Set authorized SSH key for user {{ standard_user }}
-  authorized_key: 
+  authorized_key:
     user: "{{ standard_user }}"
     state: present
     key: "{{ lookup('file', item) }}"

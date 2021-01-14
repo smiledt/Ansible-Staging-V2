@@ -1,0 +1,7 @@
+---
+# handlers file for krb5_user
+
+- name: Restart sssd
+  service:
+    name: sssd
+    state: restarted

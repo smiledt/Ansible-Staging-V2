@@ -1,8 +1,11 @@
 ---
 # Run the deploy_vmare playbook against the control host
 
-- hosts: deploy
+- name: Deploy the new vm from VCenter.
+  hosts: deploy
   gather_facts: false
+  vars_files:
+    - vmware_deploy/vars/vault
 
   vars_prompt:
     - name: "vsphere_user"
@@ -22,12 +25,35 @@
   roles:
      - vmware_deploy
 
-- hosts: deploy
+- name: Wait for 60 seconds port 22 to come online.
+  hosts: localhost
+  tasks:
+    - name: Pause for a minute
+      pause:
+        minutes: 1
+
+
+- name: Add the ansible management user.
+  hosts: deploy
   gather_facts: false
   remote_user: "{{ provisioned_user_name }}"
   become: true
+  vars_files:
+    - management_user/vars/vault
   vars:
     ansible_become_pass: "{{ provisioned_user_pass }}"
     ansible_ssh_pass: "{{ provisioned_user_pass }}"
   roles:
     - role: management_user
+
+- name: Add the standard user account.
+  hosts: deploy
+  become: true
+  roles:
+    - role: standard_user
+
+- name: Join new hosts to the domain.
+  hosts: deploy
+  become: true
+  roles:
+    - krb5_user
