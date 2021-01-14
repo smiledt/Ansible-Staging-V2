@@ -14,7 +14,7 @@ guest_domain_name: plumbus.lab
 guest_id: ubuntu64Guest
 guest_memory: 1024
 guest_vcpu: 1
-guest_template: Ubuntu 20.04 Server template
+guest_template: Ubuntu 20.04 Server
 hdd_gb: 16
 hdd_type: thin
 vsphere_datastore: 840EVO_SSD
