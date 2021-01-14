@@ -3,7 +3,7 @@
 
 - name: Verify
   hosts: all
-  vars_files: 
+  vars_files:
     - ../../management_user/defaults/main.yml
     - ../../standard_user/defaults/main.yml
   tasks:

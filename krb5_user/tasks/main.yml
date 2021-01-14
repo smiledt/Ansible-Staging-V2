@@ -2,6 +2,9 @@
 # tasks file for krb5_user
 # this task joins an ubuntu vm to the active directory domain
 
+- name: Include encrypted variables
+  include_vars: vault.yml
+
 - name: Install the kerberos client software necessary to join an ubuntu vm to the domain
   apt:
     name: ['krb5-user',  'samba', 'sssd', 'chrony', 'realmd', 'samba-common', 'packagekit', 'samba-common-bin', 'samba-libs', 'adcli', 'sssd-tools']
@@ -70,7 +73,7 @@
 
 - name: Join system to AD
   expect:
-    command: /bin/bash -c "/usr/sbin/realm join {{ krb5_default_realm }} --computer-ou={{ realm_ad_ou }} --user={{ kerberos_user }}"
+    command: /bin/bash -c "/usr/sbin/realm join {{ krb5_default_realm }} --computer-ou='{{ realm_ad_ou }}' --user={{ kerberos_user }}"
     responses:
       (?i)Password: "{{ kerberos_user_password }}"
   register: join_results

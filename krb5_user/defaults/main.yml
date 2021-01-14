@@ -7,5 +7,5 @@ krb5_default_realm: PLUMBUS.LAB
 krb5_domain_controller: dc01.plumbus.lab
 realm_domain: .PLUMBUS.LAB
 kerberos_user: smiledt
-realm_ad_ou: OU=Ubuntu,OU=Virtual Machines,OU=Plumbus Computers,OU=Plumbus Labs,DC=plumbus,DC=lab
+realm_ad_ou: "OU=Ubuntu,OU=Virtual Machines,OU=Plumbus Computers,OU=Plumbus Labs,DC=plumbus,DC=lab"
 realm_domain_lc: plumbus.lab
