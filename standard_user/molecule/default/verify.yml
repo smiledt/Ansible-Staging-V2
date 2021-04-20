@@ -1,0 +1,15 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  vars_files:
+    - ../../defaults/main.yml
+  tasks:
+  - name: "Check to make sure the installed keys exist"
+    stat:
+      path: "/home/{{ standard_user }}/.ssh/{{ item }}"
+    register: stat_result
+    failed_when: stat_result is not defined
+    with_fileglob:
+      - ../../files/*.pub

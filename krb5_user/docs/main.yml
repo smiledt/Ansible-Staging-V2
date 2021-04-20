@@ -1,0 +1,16 @@
+---
+defaults:
+  kerberos_user:
+    help: TODO.
+  kerberos_user_password:
+    help: TODO.
+  krb5_default_realm:
+    help: TODO.
+  krb5_domain_controller:
+    help: TODO.
+  realm_ad_ou:
+    help: TODO.
+  realm_domain:
+    help: TODO.
+  realm_domain_lc:
+    help: TODO.

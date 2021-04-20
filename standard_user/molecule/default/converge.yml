@@ -1,0 +1,21 @@
+---
+- name: Converge
+  hosts: all
+  vars_files:
+    - ../../defaults/main.yml
+  tasks:
+    - name: Update apt cache (on Debian)
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_os_family == 'Debian'
+
+    - name: "Ensure the user {{ standard_user }} exists (this user exists by default in my environment)."
+      user:
+        name: "{{ standard_user }}"
+        comment: Standard user profile.
+        shell: /bin/bash
+
+    - name: "Include standard_user."
+      include_role:
+        name: "standard_user"

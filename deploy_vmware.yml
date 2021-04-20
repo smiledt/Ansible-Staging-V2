@@ -1,8 +1,11 @@
 ---
 # Run the deploy_vmare playbook against the control host
 
-- hosts: deploy
+- name: Deploy the new vm from VCenter.
+  hosts: deploy
   gather_facts: false
+  vars_files:
+    - vmware_deploy/vars/vault
 
   vars_prompt:
     - name: "vsphere_user"
@@ -23,34 +26,12 @@
   roles:
      - vmware_deploy
 
-# - name: Wait for 120 seconds port 22 to come online.
-#   hosts: localhost
-#   tasks:
-#     - name: Pause for 2 minutes.
-#       pause:
-#         minutes: 2
-
-# - name: Wait for port 22 to come online for the new vms.
-#   hosts: deploy
-#   gather_facts: false
-#   tasks:
-#     - name: Wait for port 22.
-#       wait_for_connection:
-#         delay: 60
-#         timeout: 600
-#       delegate_to: localhost
-
-# Do not assume the inventory_hostname is resolvable and delay 10 seconds at start
-# - name: Wait 300 seconds for port 22 to become open and contain "OpenSSH"
-#   hosts: localhost
-#   gather_facts: false
-#   tasks:
-#     - name: Wait for port 22 on the new servers. 
-#       wait_for:
-#         host: 192.168.1.31
-#         port: 22
-#         delay: 10
-        
+- name: Wait for 60 seconds port 22 to come online.
+  hosts: localhost
+  tasks:
+    - name: Pause for a minute
+      pause:
+        minutes: 1
 
 - name: Add the ansible management user.
   hosts: deploy

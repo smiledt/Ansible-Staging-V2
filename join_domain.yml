@@ -1,0 +1,13 @@
+---
+- name: Join new hosts to the domain.
+  hosts: deploy
+  become: true
+  roles:
+    - krb5_user
+#  vars_prompt: 
+#    - name: "kerberos_user"
+#      prompt: "Domain administrator account username"
+#      private: no
+#    - name: "kerberos_user_password"
+#      prompt: "Password for the domain administrator account"
+#      private: yes

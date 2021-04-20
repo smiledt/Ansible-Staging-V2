@@ -1,0 +1,19 @@
+[libdefaults]
+    default_realm = {{ krb5_default_realm }}
+
+[realms]
+    {{ krb5_default_realm }} = {
+        kdc = {{ krb5_domain_controller }} 
+        admin_server = {{ krb5_domain_controller }}
+    }
+
+[domain_realm]
+    {{ realm_domain }} = {{ krb5_default_realm }}
+
+[login]
+    krb4_convert = true
+    krb4_get_tickets = false
+
+[logging]
+    default = FILE:/var/krb5/kdc.log
+    kdc = FILE:/var/krb5/kdc.log
