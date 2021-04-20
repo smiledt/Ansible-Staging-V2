@@ -50,6 +50,7 @@
     #using the 16.04.6 template is currently a temporary workaround
     template: 'Basic Ubuntu 16.04.6'
     wait_for_ip_address: yes
+    wait_for_customization: yes
   delegate_to: localhost
   when: guest_custom_ip is undefined
 
@@ -87,6 +88,7 @@
       hostname: '{{ inventory_hostname }}'
     template: '{{ guest_template }}'
     wait_for_ip_address: yes
+    wait_for_customization: yes
   delegate_to: localhost
   when: guest_custom_ip is defined
 
@@ -99,3 +101,10 @@
     state: present
   when: guest_custom_ip is defined
   delegate_to: dc01
+
+- name: Wait 300 seconds for port 22 to become open and contain "OpenSSH"
+  wait_for:
+    host: "{{ guest_custom_ip }}"
+    port: 22
+    delay: 10
+  delegate_to: localhost

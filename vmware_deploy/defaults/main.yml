@@ -15,6 +15,6 @@ guest_id: ubuntu64Guest
 guest_memory: 1024
 guest_vcpu: 1
 guest_template: Ubuntu 20.04 Server template
-hdd_gb: 16
+hdd_gb: 32
 hdd_type: thin
 vsphere_datastore: 840EVO_SSD

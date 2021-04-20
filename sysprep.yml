@@ -1,0 +1,23 @@
+---
+- hosts: deploy
+  gather_facts: false
+  remote_user: "{{ provisioned_user_name }}"
+  become: true
+  vars_files:
+    - management_user/vars/vault
+  vars:
+    ansible_become_pass: "{{ provisioned_user_pass }}"
+    ansible_ssh_pass: "{{ provisioned_user_pass }}"
+  roles:
+    - role: management_user
+
+- hosts: deploy
+  become: true
+  roles:
+    - role: standard_user
+
+- name: Join new hosts to the domain.
+  hosts: deploy
+  become: true
+  roles:
+    - krb5_user

@@ -1,21 +1,20 @@
-# vmware_deploy
+VMWare-Deploy
+=========
 
-## Table Of Contents
+This role creates a new virtual machine using on my ESXi host utilizing the vmware_guest module. The defaults are currently set up for my infrastructure, but can be overwritten for application specific uses. Also, many of these variables can be overwritten at the host level for changes in configurations between hosts. This role expects the variables "esxi_host", "vsphere_host", "vsphere_password", and "vshere_user" to be passed, either via the command line or via AWX. Defaults or variable files can also be used.
 
-* [About](#about)
-* [Role Defaults](#role-defaults)
-* [License](#license)
-* [Author](#author)
+Requirements
+------------
 
-## About
+This playbook will not work with the free version of ESXi, and the ESXi host that the virtual machine is being deployed on needs to be managed by a VCenter server. In addition, this playbook assumes that the main DNS on the network is a Windows Server. This can easily be avoided by removing that part of the role. 
 
-> This role creates a new virtual machine using my ESXi server and the vmware_guest module. The defaults are currently set up for my infrastructure, but can be overriden for application specific uses. Also, many of these variables can be overriden at the host level for changes in configurations between hosts. 
->
-> Note: This role expects the variables "esxi_host", "vsphere_host", "vsphere_password", and "vshere_user" to be passed, either via the command line or via AWX. Defaults can also be used. 
+Role Variables
+--------------
+Required variables are listed here, along with default example values. see defaults/main.yml. Any of these defaults can be overwritten by using the vars role directory, the command line, AWX, etc. 
 
-[Back to table of contents](#table-of-contents)
+    guest_dns_server: 192.168.1.8
 
-## Role Defaults
+This is the a DNS server on the network. This is used for two things in the playbook - it is installed as the default DNS on the new virtual machine and a new A record is created on the DNS server for the vm. 
 
 **Quicklist**: [guest_dns_server](#guest_dns_server), [guest_domain_name](#guest_domain_name),
 [guest_gateway](#guest_gateway), [guest_id](#guest_id),
