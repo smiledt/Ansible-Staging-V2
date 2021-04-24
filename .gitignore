@@ -1,4 +1,5 @@
 # I do not want to accidentally upload a vault password
 .vault_pass
+*.vaultpass
 
 .DS_Store
