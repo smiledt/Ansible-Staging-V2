@@ -1,151 +1,137 @@
-# vmware_deploy
+VMWare-Deploy
+=========
 
-## Table Of Contents
+This role creates a new virtual machine using on my ESXi host utilizing the vmware_guest module. The defaults are currently set up for my infrastructure, but can be overwritten for application specific uses. Also, many of these variables can be overwritten at the host level for changes in configurations between hosts. This role expects the variables "esxi_host", "vsphere_host", "vsphere_password", and "vshere_user" to be passed, either via the command line or via AWX. Defaults or variable files can also be used.
 
-* [About](#about)
-* [Role Defaults](#role-defaults)
-* [License](#license)
-* [Author](#author)
+Requirements
+------------
 
-## About
+This playbook will not work with the free version of ESXi, and the ESXi host that the virtual machine is being deployed on needs to be managed by a VCenter server. In addition, this playbook assumes that the main DNS on the network is a Windows Server. This can easily be avoided by removing that part of the role. 
 
-> This role creates a new virtual machine using my ESXi server and the vmware_guest module. The defaults are currently set up for my infrastructure, but can be overriden for application specific uses. Also, many of these variables can be overriden at the host level for changes in configurations between hosts. 
->
-> Note: This role expects the variables "esxi_host", "vsphere_host", "vsphere_password", and "vshere_user" to be passed, either via the command line or via AWX. Defaults can also be used. 
+Role Variables
+--------------
+Required variables are listed here, along with default example values. see defaults/main.yml. Many of these variables need to be overwrriten for the playbook to run. This can be done using the vars role directory, the command line, AWX, etc.
 
-[Back to table of contents](#table-of-contents)
+    vsphere_host: vcsa01.domain.com
 
-## Role Defaults
+This is the VCenter instance that will be used to deploy the virtual machine. 
 
-**Quicklist**: [guest_dns_server](#guest_dns_server), [guest_domain_name](#guest_domain_name),
-[guest_gateway](#guest_gateway), [guest_id](#guest_id),
-[guest_memory](#guest_memory), [guest_netmask](#guest_netmask),
-[guest_network](#guest_network), [guest_template](#guest_template),
-[guest_vcpu](#guest_vcpu), [hdd_gb](#hdd_gb), [hdd_type](#hdd_type),
-[vsphere_datacenter](#vsphere_datacenter),
-[vsphere_datastore](#vsphere_datastore), [vsphere_folder](#vsphere_folder),
-[vsphere_host](#vsphere_host), [vsphere_user](#vsphere_user)
+    vsphere_datacenter: HomeLab
 
-### guest_dns_server 
+This is the datacenter group in VCenter the virtual machine will be added to. 
 
-* *help*: TODO.
-* *default*: ``172.16.1.2``
+    vsphere_folder: /Production
 
-[Back to table of contents](#table-of-contents)
+This is the vm folder the virtual machine will be added to.
 
-### guest_domain_name 
+    guest_dns_servers:
+      - 192.168.1.1
+      - 192.168.1.2
+      - 8.8.8.8
 
-* *help*: TODO.
-* *default*: ``plumbus.lab``
+This is a list of DNS servers on the network. This is installed as the default DNS on the new virtual machine.
 
-[Back to table of contents](#table-of-contents)
+    guest_domain_name: domain.com
 
-### guest_gateway 
+This is the domain that the virtual machine is on. This domain name is appended to the host name during DNS lookups.
 
-* *help*: TODO.
-* *default*: ``172.16.1.1``
+    guest_gateway: 192.168.1.1
 
-[Back to table of contents](#table-of-contents)
+The defualt gateway of the vm. This is set using VMWare's guest customization.
 
-### guest_id 
+    guest_id: ubuntu64Guest
+    
+The guest OS version. Currently this has only been tested deploying templates running the 64bit version of the Ubuntu Linux distro.
 
-* *help*: TODO.
-* *default*: ``ubuntu64Guest``
 
-[Back to table of contents](#table-of-contents)
 
-### guest_memory 
+   
+The following variables can be overwritten at the host level in the inventory file as well to customize the different virtual machines being deployed.
 
-* *help*: TODO.
-* *default*: ``1024``
+    guest_memory: 1024
 
-[Back to table of contents](#table-of-contents)
+The amount of memory allocated for the new virtual machine (in MB).
 
-### guest_netmask 
+    guest_vcpu: 1
 
-* *help*: TODO.
-* *default*: ``255.255.255.0``
+The number of virtual cpu threads to allocate for the virtual machine.
 
-[Back to table of contents](#table-of-contents)
+    guest_template: Ubuntu 20.04 Server
 
-### guest_network 
+This is the name of the template in VCenter to copy from. This template must exist, so this should be changed to match your environment.
 
-* *help*: TODO.
-* *default*: ``prod``
+    hdd_gb: 32
 
-[Back to table of contents](#table-of-contents)
+The size of the hard drive for the new virtual machine (in GB).
 
-### guest_template 
+    hdd_type: thin
 
-* *help*: TODO.
-* *default*: ``Basic Ubuntu 18.04.2``
+How to provision the new virtual machine disk. Acceptable values are thin, thick, and eagerzeroedthick.
 
-[Back to table of contents](#table-of-contents)
+    vsphere_datastore: VFMS_Datastore
 
-### guest_vcpu 
+The datastore to create the new virtual machine disk on. This should also be changed to match your environment. 
 
-* *help*: TODO.
-* *default*: ``1``
+    vsphere_user: admin
 
-[Back to table of contents](#table-of-contents)
+This is the VCenter administrator. This administrator account must have the permissions to create vms.
 
-### hdd_gb 
+    vsphere_password: pass
 
-* *help*: TODO.
-* *default*: ``32``
+This is the password for the VCenter administrator account. I do not recommend using plain text like this, instead use a vault variable or something else more secure.
 
-[Back to table of contents](#table-of-contents)
+    esxi_host: esxi01.domain.com
 
-### hdd_type 
+This is the ESXi host that the vm will be deployed on. 
 
-* *help*: TODO.
-* *default*: ``thin``
+    notes: Deployed with ansible
 
-[Back to table of contents](#table-of-contents)
+These notes will be added to the virtual machine among creation. The time and date of creation are appended to these notes.
 
-### vsphere_datacenter 
+Dependencies
+------------
 
-* *help*: TODO.
-* *default*: ``Lab``
+You need a VCenter running and an administrator account on the ESXI host. 
 
-[Back to table of contents](#table-of-contents)
+Example Playbook
+----------------
 
-### vsphere_datastore 
+    - name: Deploy the new vm from VCenter.
+      hosts: deploy
+      gather_facts: false
+      vars_files:
+        - vmware_deploy/vars/vault
+    
+      vars_prompt:
+        - name: "vsphere_user"
+          prompt: "VSphere user"
+          private: no
+        - name: "vsphere_password"
+          prompt: "vSphere Password"
+          private: yes
+        - name: "esxi_host"
+          prompt: "ESXi host"
+          private: no
+          default: esxi01.domain.com
+        - name: "notes"
+          prompt: "VM notes"
+          private: no
+          default: "Deployed with ansible"
+      roles:
+         - vmware_deploy
 
-* *help*: TODO.
-* *default*: ``Dev RAID``
+This playbook prompts the user to enter in the VSphere credentials and host for flexibility. This is optional, these variables can be injected another way. 
 
-[Back to table of contents](#table-of-contents)
+License
+-------
 
-### vsphere_folder 
+BSD
 
-* *help*: TODO.
-* *default*: ``/Dev``
+Author Information
+------------------
 
-[Back to table of contents](#table-of-contents)
+Derek Smiley - Homelabber, Network Analyst, aspiring System Administrator/Ansible Automation Engineer
 
-### vsphere_host 
+Connect with me on LinkedIn - https://www.linkedin.com/in/derek-smiley/
 
-* *help*: TODO.
-
-[Back to table of contents](#table-of-contents)
-
-### vsphere_user 
-
-* *help*: TODO.
-
-[Back to table of contents](#table-of-contents)
-
-## License
-
-license (GPL-2.0-or-later, MIT, etc)
-
-[Back to table of contents](#table-of-contents)
-
-## Author
-
-Derek Smiley
-
-Not claiming as my original work, got part from an ansible-galaxy role and other websites
-
-[Back to table of contents](#table-of-contents)
+Much of this was created using snippets from other public repositories on github. I claim ownership of none of this code.

@@ -25,14 +25,6 @@
   roles:
      - vmware_deploy
 
-- name: Wait for 60 seconds port 22 to come online.
-  hosts: localhost
-  tasks:
-    - name: Pause for a minute
-      pause:
-        minutes: 1
-
-
 - name: Add the ansible management user.
   hosts: deploy
   gather_facts: false

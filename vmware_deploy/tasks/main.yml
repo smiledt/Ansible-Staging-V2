@@ -99,3 +99,12 @@
     state: present
   when: guest_custom_ip is defined
   delegate_to: dc01
+
+# Wait for SSH to be availble. This makes sure that ansible can connect for further tasks to the new vm.
+- name: Wait 300 seconds for port 22 to become open and contain "OpenSSH"
+  wait_for:
+    host: "{{ guest_custom_ip }}"
+    port: 22
+    delay: 10
+    search_regex: OpenSSH
+  delegate_to: localhost
