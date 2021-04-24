@@ -10,7 +10,7 @@ This playbook will not work with the free version of ESXi, and the ESXi host tha
 
 Role Variables
 --------------
-Required variables are listed here, along with default example values. see defaults/main.yml. Many of these variables need to be overwrriten for the playbook to run. This can be done using the vars role directory, the command line, AWX, etc.
+Required variables are listed here, along with default example values. See defaults/main.yml. Many of these variables need to be overwritten for the playbook to run. This can be done using the vars role directory, the command line, AWX, etc.
 
     vsphere_host: vcsa01.domain.com
 

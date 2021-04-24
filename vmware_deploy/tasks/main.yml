@@ -55,7 +55,7 @@
 
 
 # Create a VM from a template with a STATIC IP
-- name: create the VM with STATIC IP
+- name: Create the VM with STATIC IP.
   vmware_guest:
     hostname: '{{ vsphere_host }}'
     username: '{{ vsphere_user }}'
@@ -90,7 +90,7 @@
   delegate_to: localhost
   when: guest_custom_ip is defined
 
-- name: Add DNS records for new STATIC vms
+- name: Add DNS records for new STATIC vms.
   win_dns_record:
     name: "{{ inventory_hostname }}"
     type: "A"
@@ -101,7 +101,7 @@
   delegate_to: dc01
 
 # Wait for SSH to be availble. This makes sure that ansible can connect for further tasks to the new vm.
-- name: Wait 300 seconds for port 22 to become open and contain "OpenSSH"
+- name: Wait 300 seconds for port 22 to become open and contain "OpenSSH".
   wait_for:
     host: "{{ guest_custom_ip }}"
     port: 22
