@@ -1,0 +1,22 @@
+---
+# handlers file for vmware-deploy
+
+- name: Comment hosts backup
+  blockinfile:
+    path: /mnt/storage/tmp/backup/dev.{{ creationdate_dash }}
+    insertbefore: BOF
+    block: |
+      # This backup was made by ansible on {{ creationdate_dash }}
+      # From Control's ansible dev inventory file
+      # While creating the following virtual machines:
+  delegate_to: localhost
+  notify: Append backup comment
+
+- name: Append backup comment
+  lineinfile:
+    path: /mnt/storage/tmp/backup/dev.{{ creationdate_dash }}
+    insertbefore: "# END ANSIBLE MANAGED BLOCK"
+    state: present
+    line: "# {{ item }}"
+  with_items: "{{ play_hosts }}"
+  delegate_to: localhost

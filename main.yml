@@ -1,0 +1,26 @@
+---
+# The main playbook for the vmware-deploy role. 
+
+- name: Deploy the new vm from VCenter.
+  hosts: deploy
+  gather_facts: false
+  vars_files:
+    - roles/vmware-deploy/vars/vault.yml
+
+#  vars_prompt:
+#    - name: "vsphere_user"
+#      prompt: "VSphere user"
+#      private: no
+#    - name: "vsphere_password"
+#      prompt: "vSphere Password"
+#      private: yes
+#    - name: "esxi_host"
+#      prompt: "ESXi host"
+#      private: no
+#      default: atlantis.plumbus.lab
+#   - name: "notes"
+#     prompt: "VM notes"
+#     private: no
+#     default: "Deployed with ansible"
+  roles:
+    - vmware-deploy
