@@ -16,4 +16,3 @@ guest_template: Ubuntu 20.04 Server
 
 vsphere_user: smiledt@plumbus.lab
 vsphere_password: "{{ vault_vsphere_pass }}"
-
