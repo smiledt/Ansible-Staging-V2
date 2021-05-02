@@ -1,5 +1,5 @@
 ---
-# defaults file for vmware_deploy
+# defaults file for vmware-deploy
 
 vsphere_host: vcsa01.domain.com
 vsphere_datacenter: HomeLab
@@ -22,5 +22,5 @@ vsphere_datastore: Intel_SSD
 
 vsphere_user: admin
 vsphere_password: pass
-esxi_host: esxi01.domain.com
+esxi_host: atlantis.plumbus.lab
 notes: Deployed with ansible

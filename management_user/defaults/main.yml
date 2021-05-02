@@ -1,6 +1,0 @@
----
-# defaults file for management_user
-
-management_user: ansible
-management_pass: "{{ vault_management_pass }}"
-provisioned_user_name: smiledt

@@ -100,7 +100,7 @@ Example Playbook
       hosts: deploy
       gather_facts: false
       vars_files:
-        - vmware_deploy/vars/vault
+        - roles/vmware-deploy/vars/vault.yml
     
       vars_prompt:
         - name: "vsphere_user"
@@ -118,9 +118,9 @@ Example Playbook
           private: no
           default: "Deployed with ansible"
       roles:
-         - vmware_deploy
+         - vmware-deploy
 
-This playbook prompts the user to enter in the VSphere credentials and host for flexibility. This is optional, these variables can be injected another way. 
+This playbook prompts the user to enter in the VSphere credentials and host for flexibility. This is optional, these variables can be injected another way. This playbook also looks for sensitive variables in a vault file. 
 
 License
 -------

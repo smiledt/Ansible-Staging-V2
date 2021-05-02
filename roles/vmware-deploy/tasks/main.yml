@@ -1,5 +1,5 @@
 ---
-# tasks file for vmware_deploy
+# tasks file for vmware-deploy
 
 # get date 
 - name: Set the date fact for later use.
@@ -47,7 +47,7 @@
       dns_servers: '{{ guest_dns_servers }}'
       domain: '{{ guest_domain_name }}'
       hostname: '{{ inventory_hostname }}'
-    #using the 16.04.6 template is currently a temporary workaround
+    # Using the 16.04.6 template is currently a temporary workaround
     template: 'Basic Ubuntu 16.04.6'
     wait_for_ip_address: yes
   delegate_to: localhost
@@ -99,6 +99,7 @@
     state: present
   when: guest_custom_ip is defined
   delegate_to: dc01
+#  ansible_ssh_pass: "{{ vault_dns_admin_pass }}"
 
 # Wait for SSH to be availble. This makes sure that ansible can connect for further tasks to the new vm.
 - name: Wait 300 seconds for port 22 to become open and contain "OpenSSH".

@@ -1,5 +1,5 @@
 ---
-# handlers file for vmware_deploy
+# handlers file for vmware-deploy
 
 - name: Comment hosts backup
   blockinfile:
