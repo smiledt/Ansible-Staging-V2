@@ -26,11 +26,11 @@ jobs:
       - name: Yamllint the directory.
         run: yamllint .
 
-      - name: Ansible-lint the directory.
-        run: ansible-lint .
+      # - name: Ansible-lint the directory.
+      #   run: ansible-lint .
       
-      - name: Finally, run ansible-lint on every .yml file. 
-        run: ansible-lint *.yml
+      # - name: Finally, run ansible-lint on every .yml file. 
+      #   run: ansible-lint *.yml
 
       - name: Now, run Molecule tests.
         run: molecule test
