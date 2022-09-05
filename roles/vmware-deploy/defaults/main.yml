@@ -1,8 +1,8 @@
 ---
 # defaults file for vmware-deploy
 
-vsphere_host: vcsa01.domain.com
-vsphere_datacenter: HomeLab
+vsphere_host: vcenter.domain.com
+vsphere_datacenter: Datacenter
 vsphere_folder: /Production
 guest_network: VM Network
 guest_netmask: 255.255.255.0
@@ -16,7 +16,7 @@ guest_id: ubuntu64Guest
 guest_memory: 1024
 guest_vcpu: 1
 guest_template: Ubuntu 20.04 Server
-hdd_gb: 32
+hdd_gb: 16
 hdd_type: thin
 vsphere_datastore: Intel_SSD
 
