@@ -18,7 +18,7 @@ guest_vcpu: 1
 guest_template: Ubuntu 20.04 Server
 hdd_gb: 16
 hdd_type: thin
-vsphere_datastore: Intel_SSD
+vsphere_datastore: Datastore
 
 vsphere_user: admin
 vsphere_password: pass

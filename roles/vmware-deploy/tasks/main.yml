@@ -102,10 +102,9 @@
 #  ansible_ssh_pass: "{{ vault_dns_admin_pass }}"
 
 # Wait for SSH to be availble. This makes sure that ansible can connect for further tasks to the new vm.
-- name: Wait 300 seconds for port 22 to become open and contain "OpenSSH".
+- name: Wait 300 seconds for port 22 to become open.
   wait_for:
     host: "{{ guest_custom_ip }}"
     port: 22
     delay: 10
-    search_regex: OpenSSH
   delegate_to: localhost
