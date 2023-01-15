@@ -2,7 +2,7 @@
 # vars file for vmware-deploy
 
 vsphere_host: vcsa01.plumbus.lab
-vsphere_datacenter: HomeLab
+vsphere_datacenter: Plumbus Labs
 vsphere_folder: /Dev
 guest_netmask: 255.255.255.0
 guest_gateway: 192.168.1.1
