@@ -3,15 +3,12 @@
 
 vsphere_host: vcsa01.plumbus.lab
 vsphere_datacenter: Plumbus Labs
-vsphere_folder: /Dev
-guest_netmask: 255.255.255.0
 guest_dns_servers:
   - 192.168.1.8
   - 192.168.1.9
   - 192.168.1.6
 guest_domain_name: plumbus.lab
 guest_id: ubuntu64Guest
-guest_template: Ubuntu 22.04.1 Template
 
 vsphere_user: smiledt@plumbus.lab
 vsphere_password: "{{ vault_vsphere_pass }}"

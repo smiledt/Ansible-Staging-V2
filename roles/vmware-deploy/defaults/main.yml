@@ -3,7 +3,7 @@
 
 vsphere_host: vcenter.domain.com
 vsphere_datacenter: Datacenter
-vsphere_folder: /Production
+vsphere_folder: /Dev
 guest_network: VM Network
 guest_netmask: 255.255.255.0
 guest_gateway : 192.168.1.1
@@ -13,11 +13,13 @@ guest_dns_servers:
   - 8.8.8.8
 guest_domain_name: domain.com
 guest_id: ubuntu64Guest
+guest_template: Ubuntu 22.04.1 Template
 guest_memory: 1024
 guest_vcpu: 1
 hdd_gb: 16
 hdd_type: thin
 vsphere_datastore: Datastore
+
 
 vsphere_user: admin
 vsphere_password: pass
