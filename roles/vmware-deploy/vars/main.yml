@@ -8,7 +8,6 @@ guest_dns_servers:
   - 192.168.1.9
   - 192.168.1.6
 guest_domain_name: plumbus.lab
-guest_id: ubuntu64Guest
 
 vsphere_user: smiledt@plumbus.lab
 vsphere_password: "{{ vault_vsphere_pass }}"
