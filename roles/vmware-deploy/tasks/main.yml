@@ -19,7 +19,8 @@
   tags: [ 'debug' ]
 
 # Create a VM from a template with DHCP - CURRENTLY DOES NOT WORK
-- name: Create the VM with DHCP.
+#TODO: Test whether this works!
+- name: Create the VM with DHCP on a specific host.
   vmware_guest:
     hostname: '{{ vsphere_host }}'
     username: '{{ vsphere_user }}'
@@ -38,8 +39,6 @@
       datastore: '{{ vsphere_datastore }}'
     networks:
     - name: '{{ guest_network }}'
-      gateway: '{{ guest_gateway }}'
-      dns_servers: '{{ guest_dns_servers }}'
     hardware:
       memory_mb: '{{ guest_memory }}'
       num_cpus: '{{ guest_vcpu }}'
@@ -47,15 +46,14 @@
       dns_servers: '{{ guest_dns_servers }}'
       domain: '{{ guest_domain_name }}'
       hostname: '{{ inventory_hostname }}'
-    # Using the 16.04.6 template is currently a temporary workaround
-    template: 'Basic Ubuntu 16.04.6'
+    template: '{{ guest_template }}'
     wait_for_ip_address: yes
   delegate_to: localhost
-  when: guest_custom_ip is undefined
+  when: guest_custom_ip is undefined and vsphere_host is defined
 
 
 # Create a VM from a template with a STATIC IP
-- name: Create the VM with STATIC IP.
+- name: Create the VM with STATIC IP on a specific host.
   vmware_guest:
     hostname: '{{ vsphere_host }}'
     username: '{{ vsphere_user }}'
@@ -88,7 +86,73 @@
     template: '{{ guest_template }}'
     wait_for_ip_address: yes
   delegate_to: localhost
-  when: guest_custom_ip is defined
+  when: guest_custom_ip is defined and vsphere_host is defined
+
+- name: Create the VM with STATIC IP on a cluster.
+  vmware_guest:
+    hostname: '{{ vsphere_host }}'
+    username: '{{ vsphere_user }}'
+    password: '{{ vsphere_password }}'
+    validate_certs: no
+    cluster: '{{ cluster_name }}'
+    datacenter: '{{ vsphere_datacenter }}'
+    folder: '{{ vsphere_folder }}'
+    name: '{{ inventory_hostname }}'
+    state: poweredon
+    guest_id: '{{ guest_id }}'
+    annotation: "{{ notes }} by user {{ vsphere_user }} on {{ creationdate }} ."
+    disk:
+    - size_gb: "{{ hdd_gb }}"
+      type: "{{ hdd_type }}"
+      datastore: '{{ vsphere_datastore }}'
+    networks:
+    - name: '{{ guest_network }}'
+      ip: '{{ guest_custom_ip }}'
+      netmask: '{{ guest_netmask }}'
+      gateway: '{{ guest_gateway }}'
+      dns_servers: '{{ guest_dns_servers }}'
+    hardware:
+      memory_mb: '{{ guest_memory }}'
+      num_cpus: '{{ guest_vcpu }}'
+    customization:
+      dns_servers: '{{ guest_dns_servers }}'
+      domain: '{{ guest_domain_name }}'
+      hostname: '{{ inventory_hostname }}'
+    template: '{{ guest_template }}'
+    wait_for_ip_address: yes
+  delegate_to: localhost
+  when: guest_custom_ip is defined and cluster_name is defined
+
+- name: Create the VM with DHCP on a cluster.
+  vmware_guest:
+    hostname: '{{ vsphere_host }}'
+    username: '{{ vsphere_user }}'
+    password: '{{ vsphere_password }}'
+    validate_certs: no
+    cluster: '{{ cluster_name }}'
+    datacenter: '{{ vsphere_datacenter }}'
+    folder: '{{ vsphere_folder }}'
+    name: '{{ inventory_hostname }}'
+    state: poweredon
+    guest_id: '{{ guest_id }}'
+    annotation: "{{ notes }} by user {{ vsphere_user }} on {{ creationdate }} ."
+    disk:
+    - size_gb: "{{ hdd_gb }}"
+      type: "{{ hdd_type }}"
+      datastore: '{{ vsphere_datastore }}'
+    networks:
+    - name: '{{ guest_network }}'
+    hardware:
+      memory_mb: '{{ guest_memory }}'
+      num_cpus: '{{ guest_vcpu }}'
+    customization:
+      dns_servers: '{{ guest_dns_servers }}'
+      domain: '{{ guest_domain_name }}'
+      hostname: '{{ inventory_hostname }}'
+    template: '{{ guest_template }}'
+    wait_for_ip_address: yes
+  delegate_to: localhost
+  when: guest_custom_ip is undefined and cluster_name is defined
 
 - name: Add DNS records for new STATIC vms.
   win_dns_record:

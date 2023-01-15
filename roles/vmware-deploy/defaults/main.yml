@@ -15,12 +15,10 @@ guest_domain_name: domain.com
 guest_id: ubuntu64Guest
 guest_memory: 1024
 guest_vcpu: 1
-guest_template: Ubuntu 20.04 Server
 hdd_gb: 16
 hdd_type: thin
 vsphere_datastore: Datastore
 
 vsphere_user: admin
 vsphere_password: pass
-esxi_host: atlantis.plumbus.lab
 notes: Deployed with ansible
