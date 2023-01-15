@@ -49,7 +49,7 @@
     template: '{{ guest_template }}'
     wait_for_ip_address: yes
   delegate_to: localhost
-  when: guest_custom_ip is undefined and vsphere_host is defined
+  when: guest_custom_ip is undefined and esxi_host is defined
 
 
 # Create a VM from a template with a STATIC IP
@@ -86,7 +86,7 @@
     template: '{{ guest_template }}'
     wait_for_ip_address: yes
   delegate_to: localhost
-  when: guest_custom_ip is defined and vsphere_host is defined
+  when: guest_custom_ip is defined and esxi_host is defined
 
 - name: Create the VM with STATIC IP on a cluster.
   vmware_guest:
