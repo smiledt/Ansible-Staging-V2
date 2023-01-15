@@ -171,4 +171,5 @@
     host: "{{ guest_custom_ip }}"
     port: 22
     delay: 10
+  when: guest_custom_ip is defined
   delegate_to: localhost
