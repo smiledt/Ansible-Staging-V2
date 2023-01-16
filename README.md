@@ -82,7 +82,11 @@ This is the password for the VCenter administrator account. I do not recommend u
 
     esxi_host: esxi01.domain.com
 
-This is the ESXi host that the vm will be deployed on. 
+This is the ESXi host that the vm will be deployed on. Either this variable or the cluster_name variable must be defined. ONLY USE ONE.
+
+    cluser_name: cluster01
+
+This is the name of the cluster to deploy the new virtual machine on. Like noted above, only use ONE of this variable and the esxi_host variable.
 
     notes: Deployed with ansible
 
